@@ -7,6 +7,9 @@ Game::Game()
 {
 	this->initVariables();
 	this->initWindows();
+
+	this->initPlayer();
+
 	this->initFont();
 	this->initTextPoint();
 	this->initTextEndGame();
@@ -15,6 +18,7 @@ Game::Game()
 Game::~Game()
 {
 	delete this->window;
+	delete this->player;
 }
 //======= Sets & Gets =======
 bool Game::getEndGame() const{	return this->endGame;}
@@ -22,6 +26,7 @@ bool Game::getEndGame() const{	return this->endGame;}
 void Game::update()
 {
 	this->updateEvent();
+	this->updateEventPlayer();
 	if (!this->getEndGame()) {//Update
 		this->updateTextScore();
 		this->updatePlayer();
@@ -34,7 +39,7 @@ void Game::draw()
 	this->window->clear();
 	//Draw
 	this->drawTextPoint(*this->window);
-	this->player.draw(*this->window);
+	this->player->draw(*this->window);
 	//Game Over = drawTextEndGame
 	if (this->getEndGame()) {
 		this->window->draw(this->textGameOver);
@@ -61,6 +66,10 @@ void Game::initWindows()
 	this->window =  new sf::RenderWindow(this->videoMode,"JUEGO #3 - SFML",sf::Style::Close||sf::Style::Titlebar);
 	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
+}
+void Game::initPlayer()
+{
+	this->player = new Player();
 }
 void Game::initFont()
 {
@@ -98,13 +107,27 @@ void Game::updateEvent()
 			 break;
 		 }
 	 }
+	
+}
+
+void Game::updateEventPlayer()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		this->player->move(0.f, -1.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		this->player->move(0.f, 1.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		this->player->move(-1.f, 0.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		this->player->move(1.f, 0.f);
 
 }
 
-//======= UPDATE <Spawn> <update> =======
+
+
 void Game::updatePlayer()
 {
-	this->player.update();
+	this->player->update();
 }
 
 void Game::updateTextScore()

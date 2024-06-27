@@ -7,6 +7,7 @@
 class Player{
 private:
 	//Variables
+	float speed;
 	int hp;
 	int maxHp;
 	//Windows
@@ -31,7 +32,7 @@ public:
 	void update();
 	void draw(sf::RenderTarget &target);
 	//Funciones AAux
-
+	void move(float dirX,float dirY);
 protected:
 	//Init
 	void initVariables();

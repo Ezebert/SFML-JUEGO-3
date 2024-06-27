@@ -13,7 +13,7 @@ private:
 	bool endGame;
 	int score;
 	//Game Clases
-	Player player;
+	Player *player;
 	//Windows
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
@@ -43,6 +43,7 @@ protected:
 	//Init
 	void initVariables();
 	void initWindows();
+	void initPlayer();
 	void initFont();
 	void initTextPoint();
 	void initTextEndGame();
@@ -53,7 +54,7 @@ protected:
 	void updateCollision();
 	//	<KeyBoard Press>
 	void updateEvent();
-
+	void updateEventPlayer();
 	//Draw
 	void drawTextPoint(sf::RenderTarget& target);
 };

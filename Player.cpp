@@ -1,9 +1,11 @@
 #include "Player.h"
+#include <iostream>
 //======= Constructor & Destructor =======
 Player::Player()
 {
 	this->initVariables();
 	this->initSprite();
+
 }
 Player::~Player()
 {
@@ -23,16 +25,23 @@ void Player::draw(sf::RenderTarget& target)
 }
 
 //======= FUNCIONES AUX =======
+ void Player::move(float dirX, float dirY)
+{
+	 this->sprite.move(this->speed*dirX,this->speed*dirY);
+}
 //======= INIT =======
 void Player::initVariables()
 {
+	this->speed = 8.f;
 	this->hp = 0;
 	this->hp = this->maxHp;
 }
 void Player::initSprite()
 {
-	this->texture.loadFromFile("./img/player.png");
+	if (!this->texture.loadFromFile("./img/enemy2.png"))
+		std::cout << "ERROR::PLAYER::INITSPRITE";
 	this->sprite.setTexture(this->texture);
+	this->sprite.setScale(.5f,0.5f);
 }
 //======= UPDATE <KeyBoard Press> =======
 //======= UPDATE <Spawn> <update> =======
