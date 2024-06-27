@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>D:\CodeBlock c++\SFML JUEGO 3\SFML\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\CodeBlock c++\SFML JUEGO 3\SFML\include;$(IncludePath)</IncludePath>
+    <LibraryPath>.\SFML\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>.\SFML\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>D:\CodeBlock c++\SFML JUEGO 3\SFML\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\CodeBlock c++\SFML JUEGO 3\SFML\include;$(IncludePath)</IncludePath>
+    <LibraryPath>.\SFML\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>.\SFML\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,7 +137,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
