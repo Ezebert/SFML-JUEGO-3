@@ -5,13 +5,15 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 //#Include Cls
+#include "Player.h"
 class Game
 {
 private:
 	//Variables
 	bool endGame;
+	int score;
 	//Game Clases
-
+	Player player;
 	//Windows
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
@@ -32,18 +34,26 @@ public:
 	//Sets & Gets
 	bool getEndGame() const;						
 	//Funciones
-	void upDate();
+	void update();
 	void draw();
+	//Funciones Aux				
 	bool running();
-	//Accesorios				
 					
 protected:
 	//Init
 	void initVariables();
 	void initWindows();
-	void initText();
 	void initFont();
+	void initTextPoint();
+	void initTextEndGame();
 	//Update Secundario
+	void updatePlayer();
+	void updateTextScore();
+	//	<Collision>
+	void updateCollision();
+	//	<KeyBoard Press>
 	void updateEvent();
-	//Draw Secundario
+
+	//Draw
+	void drawTextPoint(sf::RenderTarget& target);
 };

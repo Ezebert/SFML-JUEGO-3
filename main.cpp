@@ -11,7 +11,7 @@ int main()
     Game game;
     
     while (game.running()) {
-        game.upDate();
+        game.update();
         game.draw();
     }
     return 0;
