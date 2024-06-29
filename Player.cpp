@@ -29,6 +29,7 @@ sf::FloatRect Player::getGlobalBounds()
 //======= FUNCIONES =======
 void Player::update()
 {
+	updateAttackCool();
 }
 void Player::draw(sf::RenderTarget& target)
 {
@@ -40,10 +41,18 @@ void Player::draw(sf::RenderTarget& target)
 {
 	 this->sprite.move(this->speed*dirX,this->speed*dirY);
 }
+ bool Player::canAttack()
+ {
+	 return attackCool>=attackCoolMax;
+ }
 //======= INIT =======
 void Player::initVariables()
 {
 	this->speed = 8.f;
+
+	this->attackCoolMax = 10.f;
+	this->attackCool = attackCoolMax;
+
 	this->hp = 0;
 	this->hp = this->maxHp;
 }
@@ -56,6 +65,13 @@ void Player::initSprite()
 }
 //======= UPDATE <KeyBoard Press> =======
 //======= UPDATE <Spawn> <update> =======
+void Player::updateAttackCool()
+{
+	if (attackCool < attackCoolMax)
+		attackCool += 1.f;
+	else
+		attackCool = 0.f;
+}
 //======= UPDATE <Collision> ======= 
 //======= DRAW =======
 

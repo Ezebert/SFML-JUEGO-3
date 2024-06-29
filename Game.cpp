@@ -61,10 +61,7 @@ void Game::draw()
 	this->window->display();
 }
 //======= FUNCIONES AUX =======
-bool Game::running()
-{
-	return this->window->isOpen();
-}
+bool Game::running(){	return this->window->isOpen();}
 
 
 //======= INIT =======
@@ -81,10 +78,7 @@ void Game::initWindows()
 	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
 }
-void Game::initPlayer()
-{
-	this->player = new Player();
-}
+void Game::initPlayer(){	this->player = new Player();}
 void Game::initFont()
 {
 	if (!this->font.loadFromFile("./font/SPACE.ttf")) {
@@ -144,26 +138,33 @@ void Game::updateInputPlayer()
 }
 void Game::updateInputBullet()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && player->canAttack())
 		this->bullets.push_back(new Bullet(this->textures["BULLETS"],
 			this->player->getPos().x + player->getGlobalBounds().width / 2,
 			this->player->getPos().y - player->getGlobalBounds().height/2, 
-			0.f,-1.f, 0.5f));
+			0.f,-1.f, 2.5f));
 }
 
 
 
-void Game::updatePlayer()
-{
-	this->player->update();
-}
+void Game::updatePlayer(){	this->player->update();}
 
 void Game::updateBullets()
 {
+	int cont = 0;
 	for (auto* b : bullets)
 	{
 		b->update();
+		//Chequeo Top 
+		if (b->getBounds().top + b->getBounds().height <= 0.f) {
+			delete bullets.at(cont);// Se libera la memoria de la bala eliminada.
+			bullets.erase(bullets.begin() + cont);//Se elimina la bala del contenedor.
+			cont--;
+			std::cout << "Contador de Bullets " << bullets.size() << "\n";
+		}
+		cont++;
 	}
+	
 }
 
 void Game::updateTextScore()

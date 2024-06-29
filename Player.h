@@ -8,8 +8,12 @@ class Player{
 private:
 	//Variables
 	float speed;
+
 	int hp;
 	int maxHp;
+
+	float attackCool;
+	float attackCoolMax;
 	//Windows
 	sf::Sprite sprite;
 	sf::Texture texture;
@@ -36,11 +40,12 @@ public:
 	void draw(sf::RenderTarget &target);
 	//Funciones AAux
 	void move(float dirX,float dirY);
+	bool canAttack();
 protected:
 	//Init
 	void initVariables();
 	void initSprite();
 	//Update Secundario
-
+	void updateAttackCool();
 	//Draw Secundario
 };

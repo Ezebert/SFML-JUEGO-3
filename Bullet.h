@@ -9,6 +9,7 @@ class Bullet
 private:
 	//Variables
 	float speed;
+
 	//Windows
 	sf::Sprite sprite;
 	sf::Texture *texture;
@@ -25,7 +26,7 @@ public:
 	Bullet(sf::Texture* texture,float posX,float posY, float dirX, float dirY, float _speed);
 	virtual ~Bullet();
 	//Sets & Gets
-
+	sf::FloatRect getBounds() const;
 	//Funciones
 	void update();
 	void draw(sf::RenderTarget* target);
@@ -36,7 +37,6 @@ protected:
 	void initVariables();
 	void initSprite();
 	//Update Secundario
-
 	//Draw Secundario
 
 };

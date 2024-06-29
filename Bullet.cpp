@@ -22,17 +22,12 @@ Bullet::Bullet(sf::Texture* texture, float posX, float posY, float dirX, float d
 Bullet::~Bullet()
 {
 }
+
 //======= Sets & Gets ======= 
+sf::FloatRect Bullet::getBounds() const{	return sprite.getGlobalBounds();}
 //======= FUNCIONES =======
-void Bullet::update()
-{
-	this->sprite.move(this->speed*this->direction);
-}
- 
-void Bullet::draw(sf::RenderTarget *target)
-{
-	target->draw(this->sprite);
-}
+void Bullet::update(){	this->sprite.move(this->speed*this->direction);}
+void Bullet::draw(sf::RenderTarget *target){	target->draw(this->sprite);}
 //======= FUNCIONES AUX =======
 //======= INIT =======
 void Bullet::initVariables()
@@ -45,6 +40,7 @@ void Bullet::initVariables()
 void Bullet::initSprite()
 {
 }
+
 //======= UPDATE <KeyBoard Press> =======
 //======= UPDATE <Spawn> <update> =======
 //======= UPDATE <Collision> ======= 
