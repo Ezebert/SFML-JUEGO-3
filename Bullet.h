@@ -1,18 +1,18 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
-#pragma once
-class Player{
+class Bullet
+{
 private:
 	//Variables
 	float speed;
-	int hp;
-	int maxHp;
 	//Windows
 	sf::Sprite sprite;
-	sf::Texture texture;
+	sf::Texture *texture;
+	sf::Vector2f direction;
 	//Mouse Posicion
 
 	//Resources
@@ -21,21 +21,16 @@ private:
 
 public:
 	//Constructor & Destructor
-	Player();
-	virtual ~Player();
+	Bullet();
+	Bullet(sf::Texture* texture,float posX,float posY, float dirX, float dirY, float _speed);
+	virtual ~Bullet();
 	//Sets & Gets
-	void setHp(int hp);
-	void setMaxHP(int maxHp);
-	int getHp();
-	int getMaxHp();
-	sf::Vector2f getPos();
-	sf::FloatRect getGlobalBounds();
-	
+
 	//Funciones
 	void update();
-	void draw(sf::RenderTarget &target);
-	//Funciones AAux
-	void move(float dirX,float dirY);
+	void draw(sf::RenderTarget* target);
+	//Accesorios
+
 protected:
 	//Init
 	void initVariables();
@@ -43,4 +38,6 @@ protected:
 	//Update Secundario
 
 	//Draw Secundario
+
 };
+

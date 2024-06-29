@@ -6,19 +6,24 @@
 #include <SFML/Window.hpp>
 //#Include Cls
 #include "Player.h"
+#include "Bullet.h"
 class Game
 {
 private:
 	//Variables
 	bool endGame;
 	int score;
+	//resaourse
+	std::map < std::string, sf::Texture* > textures;
 	//Game Clases
 	Player *player;
+	std::vector<Bullet*> bullets;
+	
 	//Windows
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
-	sf::Event event;
-	//Mouse Posicion
+
+	//Mouse Posicion 
 
 	//Resources
 
@@ -47,14 +52,17 @@ protected:
 	void initFont();
 	void initTextPoint();
 	void initTextEndGame();
+	void initTexture();
 	//Update Secundario
 	void updatePlayer();
+	void updateBullets();
 	void updateTextScore();
 	//	<Collision>
 	void updateCollision();
 	//	<KeyBoard Press>
 	void updateEvent();
-	void updateEventPlayer();
+	void updateInputPlayer();
+	void updateInputBullet();
 	//Draw
 	void drawTextPoint(sf::RenderTarget& target);
 };

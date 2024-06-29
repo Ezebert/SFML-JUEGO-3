@@ -15,6 +15,17 @@ void Player::setHp(int hp) { this->hp = hp; }
 void Player::setMaxHP(int maxHp) { this->maxHp = maxHp; }
 int Player::getHp(){	return this->hp;}
 int Player::getMaxHp(){	return this->maxHp;}
+
+sf::Vector2f Player::getPos()
+{
+	return sprite.getPosition();
+}
+
+sf::FloatRect Player::getGlobalBounds()
+{
+	return sprite.getGlobalBounds();
+}
+
 //======= FUNCIONES =======
 void Player::update()
 {
@@ -38,7 +49,7 @@ void Player::initVariables()
 }
 void Player::initSprite()
 {
-	if (!this->texture.loadFromFile("./img/enemy2.png"))
+	if (!this->texture.loadFromFile("./img/player.png"))
 		std::cout << "ERROR::PLAYER::INITSPRITE";
 	this->sprite.setTexture(this->texture);
 	this->sprite.setScale(.5f,0.5f);

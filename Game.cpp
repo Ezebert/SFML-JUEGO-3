@@ -7,7 +7,7 @@ Game::Game()
 {
 	this->initVariables();
 	this->initWindows();
-
+	this->initTexture();
 	this->initPlayer();
 
 	this->initFont();
@@ -19,6 +19,14 @@ Game::~Game()
 {
 	delete this->window;
 	delete this->player;
+	for (auto& t : this->textures) 
+	{
+		delete t.second; //Elimina l textura del map <String , *texture >
+	}
+	for (auto* b : this->bullets)
+	{
+		delete b; 
+	}
 }
 //======= Sets & Gets =======
 bool Game::getEndGame() const{	return this->endGame;}
@@ -26,12 +34,13 @@ bool Game::getEndGame() const{	return this->endGame;}
 void Game::update()
 {
 	this->updateEvent();
-	this->updateEventPlayer();
+	this->updateInputPlayer();
+	this->updateInputBullet();
 	if (!this->getEndGame()) {//Update
 		this->updateTextScore();
 		this->updatePlayer();
+		this->updateBullets();
 	}
-
 }
 
 void Game::draw()
@@ -40,6 +49,11 @@ void Game::draw()
 	//Draw
 	this->drawTextPoint(*this->window);
 	this->player->draw(*this->window);
+	for (auto* b : this->bullets)
+	{
+		b->draw(window);
+	}
+
 	//Game Over = drawTextEndGame
 	if (this->getEndGame()) {
 		this->window->draw(this->textGameOver);
@@ -89,18 +103,24 @@ void Game::initTextPoint()
 void Game::initTextEndGame()
 {
 }
+void Game::initTexture()
+{
+	this->textures["BULLETS"] = new sf::Texture();//vacio
+	this->textures["BULLETS"]->loadFromFile("./img/bullet.png");
+}
 //======= UPDATE <KeyBoard Press> =======
 
 void Game::updateEvent()
 {
-	 while (this->window->pollEvent(this->event)) {
-		 switch (this->event.type)
+	sf::Event event;
+	 while (this->window->pollEvent(event)) {
+		 switch (event.type)
 		 {
 		 case sf::Event::Closed:
 			 this->window->close();
 			 break;
 		 case sf::Event::KeyPressed:
-			 if (this->event.key.code == sf::Keyboard::Escape) {
+			 if (event.key.code == sf::Keyboard::Escape) {
 				 std::cout << "Event Key Code = ESCAPE \n";
 				 this->window->close();
 			 }
@@ -110,7 +130,7 @@ void Game::updateEvent()
 	
 }
 
-void Game::updateEventPlayer()
+void Game::updateInputPlayer()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		this->player->move(0.f, -1.f);
@@ -122,12 +142,28 @@ void Game::updateEventPlayer()
 		this->player->move(1.f, 0.f);
 
 }
+void Game::updateInputBullet()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		this->bullets.push_back(new Bullet(this->textures["BULLETS"],
+			this->player->getPos().x + player->getGlobalBounds().width / 2,
+			this->player->getPos().y - player->getGlobalBounds().height/2, 
+			0.f,-1.f, 0.5f));
+}
 
 
 
 void Game::updatePlayer()
 {
 	this->player->update();
+}
+
+void Game::updateBullets()
+{
+	for (auto* b : bullets)
+	{
+		b->update();
+	}
 }
 
 void Game::updateTextScore()
