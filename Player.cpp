@@ -68,7 +68,7 @@ void Player::initSprite()
 void Player::updateAttackCool()
 {
 	if (attackCool < attackCoolMax)
-		attackCool += 1.f;
+		attackCool += 2.f;
 	else
 		attackCool = 0.f;
 }

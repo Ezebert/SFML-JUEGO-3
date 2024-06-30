@@ -9,7 +9,7 @@ Game::Game()
 	this->initWindows();
 	this->initTexture();
 	this->initPlayer();
-
+	this->initEnemy();
 	this->initFont();
 	this->initTextPoint();
 	this->initTextEndGame();
@@ -27,6 +27,10 @@ Game::~Game()
 	{
 		delete b; 
 	}
+	for (auto* e : this->enemies)
+	{
+		delete e;
+	}
 }
 //======= Sets & Gets =======
 bool Game::getEndGame() const{	return this->endGame;}
@@ -34,12 +38,12 @@ bool Game::getEndGame() const{	return this->endGame;}
 void Game::update()
 {
 	this->updateEvent();
-	this->updateInputPlayer();
-	this->updateInputBullet();
+	this->updateInputKey();
 	if (!this->getEndGame()) {//Update
 		this->updateTextScore();
 		this->updatePlayer();
 		this->updateBullets();
+		this->updateEnemy();
 	}
 }
 
@@ -52,6 +56,10 @@ void Game::draw()
 	for (auto* b : this->bullets)
 	{
 		b->draw(window);
+	}
+	for (auto* e : enemies)
+	{
+		e->draw(window);
 	}
 
 	//Game Over = drawTextEndGame
@@ -79,6 +87,11 @@ void Game::initWindows()
 	this->window->setVerticalSyncEnabled(false);
 }
 void Game::initPlayer(){	this->player = new Player();}
+void Game::initEnemy()
+{
+	spawTimeMax = 50.f;
+	spawTime = spawTimeMax;
+}
 void Game::initFont()
 {
 	if (!this->font.loadFromFile("./font/SPACE.ttf")) {
@@ -124,8 +137,9 @@ void Game::updateEvent()
 	
 }
 
-void Game::updateInputPlayer()
+void Game::updateInputKey()
 {
+	//Player
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		this->player->move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -134,15 +148,13 @@ void Game::updateInputPlayer()
 		this->player->move(-1.f, 0.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		this->player->move(1.f, 0.f);
-
-}
-void Game::updateInputBullet()
-{
+	//Bullets
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && player->canAttack())
 		this->bullets.push_back(new Bullet(this->textures["BULLETS"],
-			this->player->getPos().x + player->getGlobalBounds().width / 2,
-			this->player->getPos().y - player->getGlobalBounds().height/2, 
-			0.f,-1.f, 2.5f));
+			this->player->getPos().x + player->getGlobalBounds().width / 2.f,
+			this->player->getPos().y - player->getGlobalBounds().height / 2,
+			0.f, -1.f, 2.5f));
+
 }
 
 
@@ -165,6 +177,27 @@ void Game::updateBullets()
 		cont++;
 	}
 	
+}
+
+void Game::updateEnemy()
+{
+	spawTime += 1.f;
+	if (spawTime > spawTimeMax) {
+		spawTime = 0;
+		enemies.push_back(new Enemy(rand()%(window->getSize().x-80)+50,-100.f));
+	}
+	int cont = 0;
+	for (auto* e : enemies)
+	{
+		e->update();
+		std::cout << "CONTADOR DE ENEMY:" << enemies.size()<<"\n";
+		if (e->getGlobalBounds().top > window->getSize().y) {
+			delete enemies.at(cont);
+			enemies.erase(enemies.begin() + cont);
+			cont--;
+		}
+		cont++;
+	}
 }
 
 void Game::updateTextScore()
